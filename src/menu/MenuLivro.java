@@ -5,8 +5,11 @@ import model.Livro;
 import utils.ConsoleUtils;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class MenuLivro {
+    private static final LivroDAO livroDAO = new LivroDAO();
+
     public void exibir() throws SQLException {
         int opcao;
         do {
@@ -25,13 +28,13 @@ public class MenuLivro {
                     cadastrarLivro();
                     break;
                 case 2:
-                    System.out.println("Listando livros...");
+                    listarLviros();
                     break;
                 case 3:
-                    System.out.println("Editando livro...");
+                    editarLivro();
                     break;
                 case 4:
-                    System.out.println("Excluindo livro...");
+                    deletarLivro();
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -56,9 +59,58 @@ public class MenuLivro {
         int quantidadeEmEstoque = ConsoleUtils.readInt("Quantidade em estoque: ");
 
         Livro livro = new Livro(titulo, autor, anoDePublicacao, quantidadeEmEstoque);
-
-        LivroDAO livroDAO = new LivroDAO();
         livroDAO.registraLivro(livro);
+    }
+
+    /**
+     * Lista todos os livros cadastrados no banco de dados e imprime no console.
+     *
+     * @throws SQLException se ocorrer erro ao buscar os alunos
+     */
+    public static void listarLviros() throws SQLException {
+        System.out.println("\n--- Lista de Livros ---");
+
+        List<Livro> livros = livroDAO.findAll();
+
+        if (livros.isEmpty()) {
+            System.out.println("Nenhum livro cadastrado!");
+        }
+
+        livros.forEach(System.out::println);
+    }
+
+    /**
+     * Lê os dados do livro via console e atualiza as informações no banco de dados.
+     *
+     * @throws SQLException se ocorrer erro ao atualizar o aluno
+     */
+    public static void editarLivro() throws SQLException {
+        System.out.println("\n--- Editar Livro ---");
+
+        String titulo = ConsoleUtils.readString("Titulo: ");
+        String autor = ConsoleUtils.readString("Autor: ");
+        int anoDePublicacao = ConsoleUtils.readInt("Ano de Publicação: ");
+        int quantidadeEmEstoque = ConsoleUtils.readInt("Quantidade em estoque: ");
+        int id = ConsoleUtils.readInt("ID: ");
+
+        Livro livro = new Livro(titulo, autor, anoDePublicacao, quantidadeEmEstoque, id);
+        livroDAO.atualizarLivro(livro);
+    }
+
+    /**
+     * Lê o ID do livro via console e exclui as informações no banco de dados apos confirmação.
+     *
+     * @throws SQLException se ocorrer erro ao atualizar o aluno
+     */
+    public static void deletarLivro() throws SQLException {
+        System.out.println("\n--- Excluir Livro ---");
+
+        int id = ConsoleUtils.readInt("ID: ");
+        boolean confirmacao = ConsoleUtils.confirm("Essa ação é irreverssivel, você confirma a exclusão? ");
+
+        if (confirmacao) {
+            livroDAO.deletarAluno(id);
+        }
     }
 }
 

@@ -17,7 +17,16 @@ public class Livro {
         this.quantidadeEmEstoque = quantidadeEmEstoque;
     }
 
+    public Livro(String titulo, String autor, int anoDePublicacao, int quantidadeEmEstoque, int id) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anoDePublicacao = anoDePublicacao;
+        this.quantidadeEmEstoque = quantidadeEmEstoque;
+        this.id = id;
+    }
+
     public Livro(ResultSet resultSet) throws SQLException {
+        this.id = resultSet.getInt("id_livro");
         this.titulo = resultSet.getString("titulo");
         this.autor = resultSet.getString("autor");
         this.anoDePublicacao = resultSet.getInt("ano_publicacao");
@@ -58,5 +67,14 @@ public class Livro {
 
     public void setQuantidadeEmEstoque(int quantidadeEmEstoque) {
         this.quantidadeEmEstoque = quantidadeEmEstoque;
+    }
+
+    @Override
+    public String toString() {
+        return "id: " + id +
+                ", titulo: '" + titulo + '\'' +
+                ", autor: '" + autor + '\'' +
+                ", ano de publicação: " + anoDePublicacao + '\'' +
+                ", quantidade em estoque: " + quantidadeEmEstoque;
     }
 }

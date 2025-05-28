@@ -120,7 +120,8 @@ public class LivroDAO {
         String selectAllLivrosSql = "SELECT * FROM Livros";
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement selectAllLivrosStmt = connection.prepareStatement(selectAllLivrosSql);
-             ResultSet resultSet = selectAllLivrosStmt.executeQuery()) {
+             ResultSet resultSet = selectAllLivrosStmt.executeQuery())
+        {
             while (resultSet.next()) {
                 livros.add(new Livro(resultSet));
             }
