@@ -15,6 +15,12 @@ public class Aluno {
         this.matricula = matricula;
         this.dataDeNascimento = dataDeNascimento;
     }
+    public Aluno(String nome, String matricula, Date dataDeNascimento, int id) {
+        this.nome = nome;
+        this.matricula = matricula;
+        this.dataDeNascimento = dataDeNascimento;
+        this.id = id;
+    }
 
     public Aluno(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getInt("id_aluno");

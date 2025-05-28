@@ -30,7 +30,7 @@ public class MenuPrincipal {
                     new MenuAluno().exibir();
                     break;
                 case 3:
-                    // new MenuEmprestimo().exibir();
+                    new MenuEmprestimo().exibir();
                     break;
                 case 0:
                     System.out.println("Saindo do sistema...");
