@@ -10,6 +10,11 @@ import java.util.List;
 public class MenuLivro {
     private static final LivroDAO livroDAO = new LivroDAO();
 
+    /**
+     * Exibe o menu de operações relacionadas a livros e executa a ação escolhida pelo usuário.
+     *
+     * @throws SQLException se ocorrer erro ao acessar o banco de dados durante alguma operação
+     */
     public void exibir() throws SQLException {
         int opcao;
         do {
@@ -25,16 +30,16 @@ public class MenuLivro {
 
             switch (opcao) {
                 case 1:
-                    cadastrarLivro();
+                    executarCadastrarLivro();
                     break;
                 case 2:
-                    listarLviros();
+                    executarListarLivros();
                     break;
                 case 3:
-                    editarLivro();
+                    executarAtualizarLivro();
                     break;
                 case 4:
-                    deletarLivro();
+                    executarExcluirLivro();
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -46,11 +51,11 @@ public class MenuLivro {
     }
 
     /**
-     * Lê os dados do livro via console e o registra no banco de dados.
+     * Lê os dados do livro via console e executa o cadastro do novo livro.
      *
-     * @throws SQLException se ocorrer erro ao registrar o aluno
+     * @throws SQLException se ocorrer erro ao registrar o livro no banco de dados.
      */
-    public static void cadastrarLivro() throws SQLException {
+    public static void executarCadastrarLivro() throws SQLException {
         System.out.println("\n--- Cadastro de Livro ---");
 
         String titulo = ConsoleUtils.readString("Titulo: ");
@@ -63,14 +68,14 @@ public class MenuLivro {
     }
 
     /**
-     * Lista todos os livros cadastrados no banco de dados e imprime no console.
+     * Lista todos os livros cadastrados no sistema.
      *
-     * @throws SQLException se ocorrer erro ao buscar os alunos
+     * @throws SQLException se ocorrer erro ao buscar os livros no banco de doaos.
      */
-    public static void listarLviros() throws SQLException {
+    public static void executarListarLivros() throws SQLException {
         System.out.println("\n--- Lista de Livros ---");
 
-        List<Livro> livros = livroDAO.findAll();
+        List<Livro> livros = livroDAO.listarLivros();
 
         if (livros.isEmpty()) {
             System.out.println("Nenhum livro cadastrado!");
@@ -80,11 +85,11 @@ public class MenuLivro {
     }
 
     /**
-     * Lê os dados do livro via console e atualiza as informações no banco de dados.
+     * Lê os dados do livro via console e executa a atualização das informações de um livro existente.
      *
-     * @throws SQLException se ocorrer erro ao atualizar o aluno
+     * @throws SQLException se ocorrer erro ao atualizar o livro no banco de dados.
      */
-    public static void editarLivro() throws SQLException {
+    public static void executarAtualizarLivro() throws SQLException {
         System.out.println("\n--- Editar Livro ---");
 
         String titulo = ConsoleUtils.readString("Titulo: ");
@@ -98,11 +103,11 @@ public class MenuLivro {
     }
 
     /**
-     * Lê o ID do livro via console e exclui as informações no banco de dados apos confirmação.
+     * Lê o ID do livro via console e executa a exclusão do livro após confirmação do usuário.
      *
-     * @throws SQLException se ocorrer erro ao atualizar o aluno
+     * @throws SQLException se ocorrer erro ao excluir o livro no banco de dados.
      */
-    public static void deletarLivro() throws SQLException {
+    public static void executarExcluirLivro() throws SQLException {
         System.out.println("\n--- Excluir Livro ---");
 
         int id = ConsoleUtils.readInt("ID: ");

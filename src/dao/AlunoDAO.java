@@ -18,7 +18,9 @@ public class AlunoDAO {
      * @throws SQLException se ocorrer um erro durante a inserção no banco de dados
      */
     public void registrarAluno(Aluno aluno) throws SQLException {
-        String insertAlunoSql = "INSERT INTO Alunos (nome_aluno, matricula, data_nascimento) VALUES (?, ?, ?)";
+        String insertAlunoSql = "INSERT INTO Alunos (nome_aluno, matricula, data_nascimento) " +
+                                "VALUES (?, ?, ?)";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement insertAlunoStmt = connection.prepareStatement(insertAlunoSql)
         ) {
@@ -42,7 +44,10 @@ public class AlunoDAO {
      * @throws SQLException se ocorrer um erro durante a execução da operação no banco de dados
      */
     public void atualizarAluno(Aluno aluno) throws SQLException{
-        String updateAlunoSql = "UPDATE Alunos SET nome_aluno = ?, matricula = ?, data_nascimento = ? WHERE id_aluno = ?";
+        String updateAlunoSql = "UPDATE Alunos " +
+                                "SET nome_aluno = ?, matricula = ?, data_nascimento = ? " +
+                                "WHERE id_aluno = ?";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement updateAlunoStmt = connection.prepareStatement(updateAlunoSql))
         {
@@ -65,7 +70,9 @@ public class AlunoDAO {
      * @throws SQLException se ocorrer um erro durante a execução da operação no banco de dados
      */
     public void deletarAluno(int idAluno) throws SQLException {
-        String deleteAlunoSql = "DELETE FROM Alunos WHERE id_aluno = ?";
+        String deleteAlunoSql = "DELETE FROM Alunos " +
+                                "WHERE id_aluno = ?";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement deleteAlunoStmt = connection.prepareStatement(deleteAlunoSql))
         {
@@ -85,8 +92,10 @@ public class AlunoDAO {
      * @return o objeto {@code Aluno} correspondente ao ID fornecido, ou {@code null} se não encontrado
      * @throws SQLException se ocorrer um erro durante a consulta ao banco de dados
      */
-    public Aluno findById(int idAluno) throws SQLException {
-        String selectAlunoByIdSql = "SELECT * FROM Alunos WHERE id_aluno = ?";
+    public Aluno buscarAlunoPorId(int idAluno) throws SQLException {
+        String selectAlunoByIdSql = "SELECT * FROM Alunos " +
+                                    "WHERE id_aluno = ?";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement selectAlunoByIdStmt = connection.prepareStatement(selectAlunoByIdSql))
         {
@@ -108,9 +117,10 @@ public class AlunoDAO {
      * @return uma lista de todos os alunos armazenados no banco
      * @throws SQLException se ocorrer um erro durante a execução da consulta
      */
-    public List<Aluno> findAll() throws SQLException {
+    public List<Aluno> listarAlunos() throws SQLException {
         List<Aluno> alunos = new ArrayList<>();
         String selectAllAlunosSql = "SELECT * FROM Alunos";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement selectAllAlunosStmt = connection.prepareStatement(selectAllAlunosSql);
              ResultSet resultSet = selectAllAlunosStmt.executeQuery())

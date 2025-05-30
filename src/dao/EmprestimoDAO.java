@@ -28,10 +28,11 @@ public class EmprestimoDAO {
      * @param idLivro o identificador do livro que está sendo emprestado
      * @throws SQLException se ocorrer algum erro de acesso ao banco de dados
      */
-    public static void registrarEmprestimo(int idAluno, int idLivro) throws SQLException {
+    public void registrarEmprestimo(int idAluno, int idLivro) throws SQLException {
         try (Connection connection = ConexaoDB.getConnection()) {
             // Verificar se o livro esta disponivel
-            String selectLivroEstoqueByIdSql = "SELECT quantidade_estoque FROM Livros WHERE id_livro = ?";
+            String selectLivroEstoqueByIdSql = "SELECT quantidade_estoque FROM Livros " +
+                                               "WHERE id_livro = ?";
 
             try (PreparedStatement checkEstoqueStmt = connection.prepareStatement(selectLivroEstoqueByIdSql)) {
                 checkEstoqueStmt.setInt(1, idLivro);
@@ -49,7 +50,9 @@ public class EmprestimoDAO {
                 }
             }
             // Atualizar quantidade do livro no estoque.
-            String updateLivroEstoqueSql = "UPDATE Livros SET quantidade_estoque = quantidade_estoque - 1 WHERE id_livro = ?";
+            String updateLivroEstoqueSql = "UPDATE Livros " +
+                                           "SET quantidade_estoque = quantidade_estoque - 1 " +
+                                           "WHERE id_livro = ?";
 
             try (PreparedStatement updateEstoqueStmt = connection.prepareStatement(updateLivroEstoqueSql)) {
                 updateEstoqueStmt.setInt(1, idLivro);
@@ -57,7 +60,8 @@ public class EmprestimoDAO {
             }
 
             // Registrar emprestimo no banco de dados.
-            String insertEmprestimoSql = "INSERT INTO Emprestimos (id_aluno, id_livro, data_emprestimo) VALUES (?, ?, ?)";
+            String insertEmprestimoSql = "INSERT INTO Emprestimos (id_aluno, id_livro, data_emprestimo) " +
+                                         "VALUES (?, ?, ?)";
 
             try (PreparedStatement insertEmprestimoStmt = connection.prepareStatement(insertEmprestimoSql)) {
                 insertEmprestimoStmt.setInt(1, idAluno);
@@ -85,8 +89,10 @@ public class EmprestimoDAO {
      * @param idEmprestimo o identificador do empréstimo a ser finalizado
      * @throws SQLException se ocorrer um erro durante a execução da operação
      */
-    public static void registrarDevolucao(int idEmprestimo) throws SQLException {
-        String selectAllEmprestimosAtivoSql = "SELECT id_livro FROM Emprestimos WHERE id_emprestimo = ? AND data_devolucao IS NULL";
+    public void registrarDevolucao(int idEmprestimo) throws SQLException {
+        String selectAllEmprestimosAtivoSql = "SELECT id_livro FROM Emprestimos " +
+                                              "WHERE id_emprestimo = ? " +
+                                              "AND data_devolucao IS NULL";
 
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement getEmprestimoAtivoStmt = connection.prepareStatement(selectAllEmprestimosAtivoSql))
@@ -103,7 +109,10 @@ public class EmprestimoDAO {
             int idLivro = resultSet.getInt("id_livro");
 
             // Atualizar a data de devolução do emprestimo
-            String updateEmprestimoDevolucaoSql = "UPDATE Emprestimos SET data_devolucao = ? WHERE id_emprestimo = ?";
+            String updateEmprestimoDevolucaoSql = "UPDATE Emprestimos " +
+                                                  "SET data_devolucao = ? " +
+                                                  "WHERE id_emprestimo = ?";
+
             try (PreparedStatement updateDevolucaoStmt = connection.prepareStatement(updateEmprestimoDevolucaoSql)) {
                 updateDevolucaoStmt.setDate(1, Date.valueOf(LocalDate.now()));
                 updateDevolucaoStmt.setInt(2, idEmprestimo);
@@ -111,7 +120,10 @@ public class EmprestimoDAO {
             }
 
             // Atualiza a quantida no estoque
-            String updateLivroEstoqueSql = "UPDATE Livros SET quantidade_estoque = quantidade_estoque + 1 WHERE id_livro = ?";
+            String updateLivroEstoqueSql = "UPDATE Livros " +
+                                           "SET quantidade_estoque = quantidade_estoque + 1 " +
+                                           "WHERE id_livro = ?";
+
             try (PreparedStatement updateEstoqueStmt = connection.prepareStatement(updateLivroEstoqueSql)) {
                 updateEstoqueStmt.setInt(1, idLivro);
                 updateEstoqueStmt.executeUpdate();
@@ -124,6 +136,33 @@ public class EmprestimoDAO {
     }
 
     /**
+     * Recupera todos os empréstimos ativos registrados no sistema.
+     *
+     * <p><b>RETORNA:</b> Uma lista contendo todos os objetos {@code Emprestimo} ativos encontrados.</p>
+     *
+     * @return uma lista de objetos {@code Emprestimo} representando os registros no banco de dados
+     * @throws SQLException se ocorrer um erro durante a consulta
+     */
+    public List<Emprestimo> listarEmprestimosAtivos() throws SQLException {
+        List<Emprestimo> emprestimos = new ArrayList<>();
+        String selectAllEmprestimosSql = "SELECT * FROM Emprestimos" +
+                                         "WHERE data_devolucao IS NULL";
+
+        try (Connection connection = ConexaoDB.getConnection();
+             PreparedStatement selectAllEmprestimosStmt = connection.prepareStatement(selectAllEmprestimosSql);
+             ResultSet resultSet = selectAllEmprestimosStmt.executeQuery()) {
+
+            while (resultSet.next()) {
+                emprestimos.add(new Emprestimo(resultSet));
+            }
+            return emprestimos;
+        } catch (SQLException e) {
+            Logger.getLogger(EmprestimoDAO.class.getName()).log(Level.SEVERE, "Erro ao listar empréstimos", e);
+            throw e;
+        }
+    }
+
+    /**
      * Recupera todos os empréstimos registrados no sistema.
      *
      * <p><b>RETORNA:</b> Uma lista contendo todos os objetos {@code Emprestimo} encontrados.</p>
@@ -131,7 +170,7 @@ public class EmprestimoDAO {
      * @return uma lista de objetos {@code Emprestimo} representando os registros no banco de dados
      * @throws SQLException se ocorrer um erro durante a consulta
      */
-    public static List<Emprestimo> listarEmprestimos() throws SQLException {
+    public List<Emprestimo> listarEmprestimos() throws SQLException {
         List<Emprestimo> emprestimos = new ArrayList<>();
         String selectAllEmprestimosSql = "SELECT * FROM Emprestimos";
 

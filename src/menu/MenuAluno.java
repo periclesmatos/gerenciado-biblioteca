@@ -11,6 +11,11 @@ import java.util.List;
 public class MenuAluno {
     private static final AlunoDAO alunoDAO = new AlunoDAO();
 
+    /**
+     * Exibe o menu de operações relacionadas a alunos e executa a ação escolhida pelo usuário.
+     *
+     * @throws SQLException se ocorrer erro ao acessar o banco de dados durante alguma operação.
+     */
     public void exibir() throws SQLException {
         int opcao;
         do {
@@ -26,16 +31,16 @@ public class MenuAluno {
 
             switch (opcao) {
                 case 1:
-                    cadastrarAluno();
+                    executarCadastrarAluno();
                     break;
                 case 2:
-                    listarAlunos();
+                    executarListarAlunos();
                     break;
                 case 3:
-                    editarAluno();
+                    executarAtualizarAluno();
                     break;
                 case 4:
-                    deletarAluno();
+                    executarExcluirAluno();
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -47,11 +52,11 @@ public class MenuAluno {
     }
 
     /**
-     * Lê os dados do aluno via console e o registra no banco de dados.
+     * Lê os dados do aluno via console e executa o cadastro de um novo aluno.
      *
-     * @throws SQLException se ocorrer erro ao registrar o aluno
+     * @throws SQLException se ocorrer erro ao registrar o aluno no banco de dados.
      */
-    public static void cadastrarAluno() throws SQLException {
+    public static void executarCadastrarAluno() throws SQLException {
         System.out.println("\n--- Cadastro de Aluno ---");
 
         String nome = ConsoleUtils.readString("Nome: ");
@@ -64,14 +69,14 @@ public class MenuAluno {
     }
 
     /**
-     * Lista todos os alunos cadastrados no banco de dados e imprime no console.
+     * Lista todos os alunos cadastrados no sistema e imprime no console.
      *
-     * @throws SQLException se ocorrer erro ao buscar os alunos
+     * @throws SQLException se ocorrer erro ao buscar os alunos no banco de dados.
      */
-    public static void listarAlunos() throws SQLException {
+    public static void executarListarAlunos() throws SQLException {
         System.out.println("\n--- Listagem de Alunos ---");
 
-        List<Aluno> alunos = alunoDAO.findAll();
+        List<Aluno> alunos = alunoDAO.listarAlunos();
 
         if (alunos.isEmpty()) {
             System.out.println("Nenhum aluno cadastrado!");
@@ -81,11 +86,11 @@ public class MenuAluno {
     }
 
     /**
-     * Lê os dados do aluno via console e atualiza as informações no banco de dados.
+     * Lê os dados do aluno via console e executa a atualização das informações de um aluno existente.
      *
-     * @throws SQLException se ocorrer erro ao atualizar o aluno
+     * @throws SQLException se ocorrer erro ao atualizar o aluno no banco de dados.
      */
-    public static void editarAluno() throws SQLException {
+    public static void executarAtualizarAluno() throws SQLException {
         System.out.println("\n--- Editar Aluno ---");
 
         String nome = ConsoleUtils.readString("Nome: ");
@@ -99,11 +104,11 @@ public class MenuAluno {
     }
 
     /**
-     * Lê o ID do aluno via console e exclui as informações no banco de dados apos confirmação.
+     * Lê o ID do aluno via console e executa a exclusão do aluno após confirmação do usuário.
      *
-     * @throws SQLException se ocorrer erro ao atualizar o aluno
+     * @throws SQLException se ocorrer erro ao excluir o aluno no banco de dados.
      */
-    public static void deletarAluno() throws SQLException {
+    public static void executarExcluirAluno() throws SQLException {
         System.out.println("\n--- Excluir Aluno ---");
 
         int id = ConsoleUtils.readInt("ID: ");

@@ -22,7 +22,9 @@ public class LivroDAO {
      * @throws SQLException se ocorrer um erro durante a inserção no banco de dados
      */
     public void registraLivro(Livro livro) throws SQLException {
-        String insertLivroSql = "INSERT INTO Livros (titulo, autor, ano_publicacao, quantidade_estoque) VALUE (?, ?, ?, ?)";
+        String insertLivroSql = "INSERT INTO Livros (titulo, autor, ano_publicacao, quantidade_estoque) " +
+                                "VALUE (?, ?, ?, ?)";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement insertLivroStmt = connection.prepareStatement(insertLivroSql))
         {
@@ -48,7 +50,10 @@ public class LivroDAO {
      * @throws SQLException se ocorrer um erro durante a execução da operação no banco de dados
      */
     public void atualizarLivro(Livro livro) throws SQLException {
-        String updateLivroSql = "UPDATE Livro SET titulo = ?, autor = ?, quantidade_estoque = ? WHERE id_livro = ?";
+        String updateLivroSql = "UPDATE Livro " +
+                                "SET titulo = ?, autor = ?, quantidade_estoque = ? " +
+                                "WHERE id_livro = ?";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement updateLivroStmt = connection.prepareStatement(updateLivroSql))
         {
@@ -72,7 +77,9 @@ public class LivroDAO {
      * @throws SQLException se ocorrer um erro durante a execução da operação no banco de dados
      */
     public void deletarAluno(int idLivro) throws SQLException {
-        String deleteLivroSql = "DELETE FROM Livros WHERE id_livro = ?";
+        String deleteLivroSql = "DELETE FROM Livros " +
+                                "WHERE id_livro = ?";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement deleteLivroStmt = connection.prepareStatement(deleteLivroSql))
         {
@@ -93,7 +100,9 @@ public class LivroDAO {
      * @throws SQLException se ocorrer um erro durante a consulta ao banco de dados
      */
     public Livro findById(int idLivro) throws SQLException {
-        String selectLivroByIdSql = "SELECT * FROM Livros WHERE id_livro = ?";
+        String selectLivroByIdSql = "SELECT * FROM Livros " +
+                                    "WHERE id_livro = ?";
+
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement selectLivroByIdStmt = connection.prepareStatement(selectLivroByIdSql))
         {
@@ -115,7 +124,7 @@ public class LivroDAO {
      * @return uma lista de todos os livros armazenados no banco
      * @throws SQLException se ocorrer um erro durante a execução da consulta
      */
-    public List<Livro> findAll() throws SQLException {
+    public List<Livro> listarLivros() throws SQLException {
         List<Livro> livros = new ArrayList<>();
         String selectAllLivrosSql = "SELECT * FROM Livros";
         try (Connection connection = ConexaoDB.getConnection();
