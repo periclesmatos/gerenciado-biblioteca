@@ -64,9 +64,14 @@ public class Emprestimo {
 
     @Override
     public String toString() {
-        return "id do Emprestimo: " + id +
-                ", ID do Aluno: '" + idAluno + '\'' +
-                ", ID do Livro: '" + idLivro + '\'' +
-                ", Data do emprestimo: " + dataEmprestimo;
+        StringBuilder sb = new StringBuilder();
+        sb.append("id do Emprestimo: ").append(id)
+                .append(", ID do Aluno: '").append(idAluno).append('\'')
+                .append(", ID do Livro: '").append(idLivro).append('\'')
+                .append(", Data do emprestimo: ").append(dataEmprestimo);
+        if (dataDevolucao != null) {
+            sb.append(", Data de devolução: ").append(dataDevolucao);
+        }
+        return sb.toString();
     }
 }

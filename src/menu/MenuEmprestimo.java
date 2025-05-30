@@ -22,6 +22,7 @@ public class MenuEmprestimo {
             System.out.println("1. Registrar emprestimo");
             System.out.println("2. Registrar devolução");
             System.out.println("3. Listar emprestimos ativos");
+            System.out.println("3. Listar todos os emprestimos resgistrados");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
 
@@ -36,6 +37,9 @@ public class MenuEmprestimo {
                     break;
                 case 3:
                     executarListarEmprestimoAtivos();
+                    break;
+                case 4:
+                    executarListarEmprestimos();
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -84,7 +88,7 @@ public class MenuEmprestimo {
         List<Emprestimo> emprestimos = emprestimoDAO.listarEmprestimosAtivos();
 
         if (emprestimos.isEmpty()) {
-            System.out.println("Nenhum emprestimo registrado");
+            System.out.println("Nenhum emprestimo ativo registrado!");
         }
 
         emprestimos.forEach(System.out::println);
@@ -96,7 +100,7 @@ public class MenuEmprestimo {
         List<Emprestimo> emprestimos = emprestimoDAO.listarEmprestimos();
 
         if (emprestimos.isEmpty()) {
-            System.out.println("Nenhum emprestimo registrado");
+            System.out.println("Nenhum emprestimo registrado!");
         }
 
         emprestimos.forEach(System.out::println);

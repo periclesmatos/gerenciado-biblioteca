@@ -145,7 +145,7 @@ public class EmprestimoDAO {
      */
     public List<Emprestimo> listarEmprestimosAtivos() throws SQLException {
         List<Emprestimo> emprestimos = new ArrayList<>();
-        String selectAllEmprestimosSql = "SELECT * FROM Emprestimos" +
+        String selectAllEmprestimosSql = "SELECT * FROM Emprestimos " +
                                          "WHERE data_devolucao IS NULL";
 
         try (Connection connection = ConexaoDB.getConnection();
