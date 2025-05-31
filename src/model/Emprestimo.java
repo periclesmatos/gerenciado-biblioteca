@@ -6,10 +6,12 @@ import java.sql.SQLException;
 
 public class Emprestimo {
     private int id;
-    private int idAluno;
-    private int idLivro;
+    private String nomeAluno;
+    private String tituloLivro;
     private Date dataEmprestimo;
     private Date dataDevolucao;
+    private int idAluno;
+    private int idLivro;
 
     public Emprestimo(int idAluno, int idLivro, Date dataEmprestimo, Date dataDevolucao) {
         this.idAluno = idAluno;
@@ -20,8 +22,8 @@ public class Emprestimo {
 
     public Emprestimo(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getInt("id_emprestimo");
-        this.idAluno = resultSet.getInt("id_aluno");
-        this.idLivro = resultSet.getInt("id_livro");
+        this.nomeAluno = resultSet.getNString("nome_aluno");
+        this.tituloLivro = resultSet.getNString("titulo_livro");
         this.dataEmprestimo = resultSet.getDate("data_emprestimo");
         this.dataDevolucao = resultSet.getDate("data_devolucao");
     }
@@ -66,8 +68,8 @@ public class Emprestimo {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("id do Emprestimo: ").append(id)
-                .append(", ID do Aluno: '").append(idAluno).append('\'')
-                .append(", ID do Livro: '").append(idLivro).append('\'')
+                .append(", Aluno: '").append(nomeAluno).append('\'')
+                .append(", Livro: '").append(tituloLivro).append('\'')
                 .append(", Data do emprestimo: ").append(dataEmprestimo);
         if (dataDevolucao != null) {
             sb.append(", Data de devolução: ").append(dataDevolucao);

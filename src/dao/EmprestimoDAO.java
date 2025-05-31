@@ -145,8 +145,12 @@ public class EmprestimoDAO {
      */
     public List<Emprestimo> listarEmprestimosAtivos() throws SQLException {
         List<Emprestimo> emprestimos = new ArrayList<>();
-        String selectAllEmprestimosSql = "SELECT * FROM Emprestimos " +
-                                         "WHERE data_devolucao IS NULL";
+        String selectAllEmprestimosSql = "SELECT e.id_emprestimo, a.nome_aluno, l.titulo AS titulo_livro, " +
+                                         "e.data_emprestimo, e.data_devolucao " +
+                                         "FROM Emprestimos e " +
+                                         "JOIN Alunos a ON e.id_aluno = a.id_aluno " +
+                                         "JOIN Livros l ON e.id_livro = l.id_livro " +
+                                         "WHERE e.data_devolucao IS NULL";
 
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement selectAllEmprestimosStmt = connection.prepareStatement(selectAllEmprestimosSql);
@@ -172,7 +176,11 @@ public class EmprestimoDAO {
      */
     public List<Emprestimo> listarEmprestimos() throws SQLException {
         List<Emprestimo> emprestimos = new ArrayList<>();
-        String selectAllEmprestimosSql = "SELECT * FROM Emprestimos";
+        String selectAllEmprestimosSql = "SELECT e.id_emprestimo, a.nome_aluno, l.titulo AS titulo_livro, " +
+                                         "e.data_emprestimo, e.data_devolucao " +
+                                         "FROM Emprestimos e " +
+                                         "JOIN Alunos a ON e.id_aluno = a.id_aluno " +
+                                         "JOIN Livros l ON e.id_livro = l.id_livro";
 
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement selectAllEmprestimosStmt = connection.prepareStatement(selectAllEmprestimosSql);
