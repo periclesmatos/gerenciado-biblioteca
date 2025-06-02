@@ -15,9 +15,8 @@ public class Aluno {
         this.matricula = matricula;
         this.dataDeNascimento = dataDeNascimento;
     }
-    public Aluno(String nome, String matricula, Date dataDeNascimento, int id) {
+    public Aluno(String nome, Date dataDeNascimento, int id) {
         this.nome = nome;
-        this.matricula = matricula;
         this.dataDeNascimento = dataDeNascimento;
         this.id = id;
     }

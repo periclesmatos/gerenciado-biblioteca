@@ -24,7 +24,6 @@ public class MenuLivro {
             System.out.println("3. Editar Livro");
             System.out.println("4. Excluir Livro");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
 
             opcao = ConsoleUtils.readInt("Escolha uma opção: ");
 
@@ -114,7 +113,7 @@ public class MenuLivro {
         boolean confirmacao = ConsoleUtils.confirm("Essa ação é irreverssivel, você confirma a exclusão? ");
 
         if (confirmacao) {
-            livroDAO.deletarAluno(id);
+            livroDAO.deletarLivro(id);
         }
     }
 }

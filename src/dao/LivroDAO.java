@@ -50,8 +50,8 @@ public class LivroDAO {
      * @throws SQLException se ocorrer um erro durante a execução da operação no banco de dados
      */
     public void atualizarLivro(Livro livro) throws SQLException {
-        String updateLivroSql = "UPDATE Livro " +
-                                "SET titulo = ?, autor = ?, quantidade_estoque = ? " +
+        String updateLivroSql = "UPDATE Livros " +
+                                "SET titulo = ?, autor = ?, ano_publicacao = ?, quantidade_estoque = ? " +
                                 "WHERE id_livro = ?";
 
         try (Connection connection = ConexaoDB.getConnection();
@@ -61,7 +61,7 @@ public class LivroDAO {
             updateLivroStmt.setString(2, livro.getAutor());
             updateLivroStmt.setInt(3, livro.getAnoDePublicacao());
             updateLivroStmt.setInt(4, livro.getQuantidadeEmEstoque());
-            updateLivroStmt.setInt(4, livro.getId());
+            updateLivroStmt.setInt(5, livro.getId());
             updateLivroStmt.executeUpdate();
             System.out.println("Livro atualizado com sucesso!");
         }
@@ -76,16 +76,30 @@ public class LivroDAO {
      * @param idLivro o identificador único do livro a ser removido
      * @throws SQLException se ocorrer um erro durante a execução da operação no banco de dados
      */
-    public void deletarAluno(int idLivro) throws SQLException {
-        String deleteLivroSql = "DELETE FROM Livros " +
-                                "WHERE id_livro = ?";
+    public void deletarLivro(int idLivro) {
+        try (Connection connection = ConexaoDB.getConnection()) {
 
-        try (Connection connection = ConexaoDB.getConnection();
-             PreparedStatement deleteLivroStmt = connection.prepareStatement(deleteLivroSql))
-        {
-            deleteLivroStmt.setInt(1, idLivro);
-            deleteLivroStmt.executeUpdate();
-            System.out.println("Livro deletado com sucesso!");
+            // Deleta os empréstimos relacionados.
+            String deleteEmprestimosSql = "DELETE FROM emprestimos " +
+                                          "WHERE id_livro = ?";
+
+            try (PreparedStatement deleteEmprestimoStmt = connection.prepareStatement(deleteEmprestimosSql)) {
+                deleteEmprestimoStmt.setInt(1, idLivro);
+                deleteEmprestimoStmt.executeUpdate();
+            }
+
+            // Deleta o livro.
+            String deleteLivroSql = "DELETE FROM livros " +
+                                    "WHERE id_livro = ?";
+
+            try (PreparedStatement deleteLivroStmt = connection.prepareStatement(deleteLivroSql)) {
+                deleteLivroStmt.setInt(1, idLivro);
+                deleteLivroStmt.executeUpdate();
+            }
+
+            System.out.println("Livro deletado com sucesso.");
+        } catch (SQLException e) {
+            java.util.logging.Logger.getLogger(LivroDAO.class.getName()).log(Level.SEVERE, "Erro ao excluir livro");
         }
     }
 
@@ -99,7 +113,7 @@ public class LivroDAO {
      * @return o objeto {@code Livro} correspondente ao ID fornecido, ou {@code null} se não encontrado
      * @throws SQLException se ocorrer um erro durante a consulta ao banco de dados
      */
-    public Livro findById(int idLivro) throws SQLException {
+    public Livro buscarLivroPorId(int idLivro) throws SQLException {
         String selectLivroByIdSql = "SELECT * FROM Livros " +
                                     "WHERE id_livro = ?";
 

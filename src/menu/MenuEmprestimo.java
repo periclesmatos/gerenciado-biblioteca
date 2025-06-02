@@ -24,7 +24,6 @@ public class MenuEmprestimo {
             System.out.println("3. Listar emprestimos ativos");
             System.out.println("4. Listar todos os emprestimos resgistrados");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
 
             opcao = ConsoleUtils.readInt("Escolha uma opção: ");
 

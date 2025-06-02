@@ -6,6 +6,7 @@ import utils.ConexaoDB;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class AlunoDAO {
     /**
@@ -45,16 +46,15 @@ public class AlunoDAO {
      */
     public void atualizarAluno(Aluno aluno) throws SQLException{
         String updateAlunoSql = "UPDATE Alunos " +
-                                "SET nome_aluno = ?, matricula = ?, data_nascimento = ? " +
+                                "SET nome_aluno = ?, data_nascimento = ? " +
                                 "WHERE id_aluno = ?";
 
         try (Connection connection = ConexaoDB.getConnection();
              PreparedStatement updateAlunoStmt = connection.prepareStatement(updateAlunoSql))
         {
             updateAlunoStmt.setString(1, aluno.getNome());
-            updateAlunoStmt.setString(2, aluno.getMatricula());
-            updateAlunoStmt.setDate(3, Date.valueOf(aluno.getDataDeNascimento().toLocalDate()));
-            updateAlunoStmt.setInt(4, aluno.getId());
+            updateAlunoStmt.setDate(2, Date.valueOf(aluno.getDataDeNascimento().toLocalDate()));
+            updateAlunoStmt.setInt(3, aluno.getId());
             updateAlunoStmt.executeUpdate();
             System.out.println("Aluno atualizado com sucesso!");
         }
@@ -70,15 +70,29 @@ public class AlunoDAO {
      * @throws SQLException se ocorrer um erro durante a execução da operação no banco de dados
      */
     public void deletarAluno(int idAluno) throws SQLException {
-        String deleteAlunoSql = "DELETE FROM Alunos " +
-                                "WHERE id_aluno = ?";
+        try (Connection connection = ConexaoDB.getConnection()) {
 
-        try (Connection connection = ConexaoDB.getConnection();
-             PreparedStatement deleteAlunoStmt = connection.prepareStatement(deleteAlunoSql))
-        {
-            deleteAlunoStmt.setInt(1, idAluno);
-            deleteAlunoStmt.executeUpdate();
-            System.out.println("Aluno deletado com sucesso!");
+            // Deleta os empréstimos relacionados.
+            String deleteEmprestimosSql = "DELETE FROM emprestimos " +
+                                          "WHERE id_aluno = ?";
+
+            try (PreparedStatement deleteEmprestimoStmt = connection.prepareStatement(deleteEmprestimosSql)) {
+                deleteEmprestimoStmt.setInt(1, idAluno);
+                deleteEmprestimoStmt.executeUpdate();
+            }
+
+            // Deleta o aluno.
+            String deleteAlunoSql = "DELETE FROM alunos " +
+                                    "WHERE id_aluno = ?";
+
+            try (PreparedStatement deleteAlunoStmt = connection.prepareStatement(deleteAlunoSql)) {
+                deleteAlunoStmt.setInt(1, idAluno);
+                deleteAlunoStmt.executeUpdate();
+            }
+
+            System.out.println("Aluno deletado com sucesso.");
+        } catch (SQLException e) {
+            java.util.logging.Logger.getLogger(AlunoDAO.class.getName()).log(Level.SEVERE, "Erro ao excluir aluno");
         }
     }
 

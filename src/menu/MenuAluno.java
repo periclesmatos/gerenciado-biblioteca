@@ -25,7 +25,6 @@ public class MenuAluno {
             System.out.println("3. Editar Aluno");
             System.out.println("4. Excluir Aluno");
             System.out.println("0. Voltar");
-            System.out.print("Escolha uma opção: ");
 
             opcao = ConsoleUtils.readInt("Escolha uma opção: ");
 
@@ -94,12 +93,11 @@ public class MenuAluno {
         System.out.println("\n--- Editar Aluno ---");
 
         String nome = ConsoleUtils.readString("Nome: ");
-        String matricula = ConsoleUtils.readString("Matrícula: ");
         String dataNascimentoStr = ConsoleUtils.readString("Data de nascimento (AAAA-MM-DD): ");
         Date dataNascimento = Date.valueOf(dataNascimentoStr);
         int id = ConsoleUtils.readInt("ID: ");
 
-        Aluno aluno = new Aluno(nome, matricula, dataNascimento, id);
+        Aluno aluno = new Aluno(nome, dataNascimento, id);
         alunoDAO.atualizarAluno(aluno);
     }
 

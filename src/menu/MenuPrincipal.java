@@ -18,7 +18,6 @@ public class MenuPrincipal {
             System.out.println("2. Gerenciar Alunos");
             System.out.println("3. Gerenciar Empréstimos");
             System.out.println("0. Sair");
-            System.out.print("Escolha uma opção: ");
 
             opcao = ConsoleUtils.readInt("Escolha uma opção: ");
 
