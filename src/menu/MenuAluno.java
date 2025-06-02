@@ -8,6 +8,10 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Classe responsável por exibir o menu de operações relacionadas a alunos e executar as ações correspondentes.
+ * Permite cadastrar, listar, editar e excluir alunos do sistema.
+ */
 public class MenuAluno {
     private static final AlunoDAO alunoDAO = new AlunoDAO();
 

@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * DAO responsável pelo acesso e manipulação dos dados da entidade {@code Livro}.
+ * Disponibiliza métodos para cadastrar, atualizar, remover e listar livros no banco de dados.
+ */
 public class LivroDAO {
     /**
      * Insere um novo livro no banco de dados.

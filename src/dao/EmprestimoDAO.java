@@ -11,7 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Classe responsável por gerenciar as operações de empréstimo de livros no banco de dados.
+ * DAO responsável por gerenciar operações de empréstimo de livros.
+ * Oferece métodos para registrar novos empréstimos, registrar devoluções,
+ * listar empréstimos ativos e consultar o histórico completo de empréstimos.
  */
 public class EmprestimoDAO {
     /**

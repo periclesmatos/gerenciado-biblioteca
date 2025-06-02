@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * DAO responsável pelo acesso e manipulação dos dados da entidade {@code Aluno}.
+ * Disponibiliza métodos para cadastrar, atualizar, remover, listar alunos no banco de dados.
+ */
 public class AlunoDAO {
     /**
      * Insere um novo aluno no banco de dados.

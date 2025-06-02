@@ -7,6 +7,9 @@ import utils.ConsoleUtils;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Classe responsável por exibir o menu de operações relacionadas a livros e executar as ações escolhidas pelo usuário.
+ */
 public class MenuLivro {
     private static final LivroDAO livroDAO = new LivroDAO();
 

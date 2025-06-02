@@ -7,6 +7,9 @@ import utils.ConsoleUtils;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Classe responsável por exibir o menu de operações relacionadas a empréstimos e executar as ações escolhidas pelo usuário.
+ */
 public class MenuEmprestimo {
     private static final EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
 
@@ -93,6 +96,11 @@ public class MenuEmprestimo {
         emprestimos.forEach(System.out::println);
     }
 
+    /**
+     * Lista todos os empréstimos registrados no sistema e imprime no console.
+     *
+     * @throws SQLException se ocorrer erro ao buscar os empréstimos no banco de dados.
+     */
     public static void executarListarEmprestimos() throws SQLException {
         System.out.println("\n--- Listagem de todos os emprestimos ---");
 

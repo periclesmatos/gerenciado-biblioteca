@@ -10,6 +10,11 @@ import java.sql.SQLException;
  * @throws SQLException caso ocorra erro ao acessar o banco de dados
  */
 public class MenuPrincipal {
+    /**
+     * Exibe o menu principal e executa as ações correspondentes às opções escolhidas pelo usuário.
+     *
+     * @throws SQLException se ocorrer erro ao acessar o banco de dados durante alguma operação.
+     */
     public void exibir() throws SQLException {
         int opcao;
         do {

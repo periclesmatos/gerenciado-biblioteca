@@ -4,6 +4,10 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Classe que representa um aluno no sistema.
+ * Contém informações como ID, nome, matrícula e data de nascimento.
+ */
 public class Emprestimo {
     private int id;
     private String nomeAluno;
@@ -13,6 +17,14 @@ public class Emprestimo {
     private int idAluno;
     private int idLivro;
 
+    /**
+     * Construtor para criar um novo empréstimo com os dados do aluno e livro.
+     *
+     * @param idAluno ID do aluno que está realizando o empréstimo
+     * @param idLivro ID do livro que está sendo emprestado
+     * @param dataEmprestimo Data em que o empréstimo foi realizado
+     * @param dataDevolucao Data prevista para devolução do livro
+     */
     public Emprestimo(int idAluno, int idLivro, Date dataEmprestimo, Date dataDevolucao) {
         this.idAluno = idAluno;
         this.idLivro = idLivro;
@@ -20,6 +32,11 @@ public class Emprestimo {
         this.dataDevolucao = dataDevolucao;
     }
 
+    /**
+     * Construtor para criar um novo empréstimo com os dados do aluno, livro e ID do empréstimo.
+     *
+     * @param resultSet ID do aluno que está realizando o empréstimo
+     */
     public Emprestimo(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getInt("id_emprestimo");
         this.nomeAluno = resultSet.getNString("nome_aluno");
